@@ -124,17 +124,12 @@ const getSimulaciones = asyncHandler(async (req, res) => {
   const from  = (page - 1) * limit;
   const to    = from + limit - 1;
 
-  const esAdmin = req.usuario.rol === 'admin';
-
-  let query = supabase
+  const { data, error, count } = await supabase
     .from('simulaciones')
     .select('*', { count: 'exact' })
+    .eq('usuario_id', req.usuario.id)
     .order('created_at', { ascending: false })
     .range(from, to);
-
-  if (!esAdmin) query = query.eq('usuario_id', req.usuario.id);
-
-  const { data, error, count } = await query;
 
   if (error) {
     res.status(500);

@@ -15,6 +15,8 @@ app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get('/', (req, res) => res.json({ status: 'ok', proyecto: 'Simulador Negocios Int' }));
+
 app.use('/api/usuarios',      usuarioRoutes);
 app.use('/api/escenarios',    escenarioRoutes);
 app.use('/api/simulaciones',  simulacionRoutes);
