@@ -52,6 +52,7 @@ const getReporteUsuario = asyncHandler(async (req, res) => {
     .single();
 
   if (errUser || !usuario) {
+    console.error('Error al obtener usuario para reporte:', errUser);
     res.status(404);
     throw new Error('Usuario no encontrado');
   }
@@ -99,6 +100,7 @@ const getReporteEscenario = asyncHandler(async (req, res) => {
     .single();
 
   if (errEsc || !escenario) {
+    console.error('Error al obtener escenario para reporte:', errEsc);
     res.status(404);
     throw new Error('Escenario no encontrado');
   }

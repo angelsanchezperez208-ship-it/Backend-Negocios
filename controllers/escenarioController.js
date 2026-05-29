@@ -10,6 +10,7 @@ const getEscenarios = asyncHandler(async (req, res) => {
     .order('id');
 
   if (error) {
+    console.error('Error al obtener escenarios:', error);
     res.status(500);
     throw new Error('Error al obtener escenarios');
   }
@@ -26,6 +27,7 @@ const getEscenario = asyncHandler(async (req, res) => {
     .single();
 
   if (error || !data) {
+    console.error('Error al obtener escenario:', error);
     res.status(404);
     throw new Error('Escenario no encontrado');
   }
@@ -49,6 +51,7 @@ const crearEscenario = asyncHandler(async (req, res) => {
     .single();
 
   if (error) {
+    console.error('Error al crear el escenario:', error);
     res.status(500);
     throw new Error('Error al crear el escenario');
   }
@@ -80,6 +83,7 @@ const actualizarEscenario = asyncHandler(async (req, res) => {
     .single();
 
   if (error || !data) {
+    console.error('Error al actualizar el escenario:', error);
     res.status(404);
     throw new Error('Escenario no encontrado');
   }

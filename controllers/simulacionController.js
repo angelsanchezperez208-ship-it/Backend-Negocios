@@ -65,6 +65,7 @@ const crearSimulacion = asyncHandler(async (req, res) => {
     .single();
 
   if (errEsc || !escenario) {
+    console.error('Error al obtener escenario:', errEsc);
     res.status(400);
     throw new Error('Escenario no encontrado');
   }
@@ -110,6 +111,7 @@ const crearSimulacion = asyncHandler(async (req, res) => {
     .single();
 
   if (errIns) {
+    console.error('Error al guardar la simulación:', errIns);
     res.status(500);
     throw new Error('Error al guardar la simulación');
   }
@@ -132,6 +134,7 @@ const getSimulaciones = asyncHandler(async (req, res) => {
     .range(from, to);
 
   if (error) {
+    console.error('Error al obtener simulaciones:', error);
     res.status(500);
     throw new Error('Error al obtener simulaciones');
   }
@@ -153,6 +156,7 @@ const getSimulacion = asyncHandler(async (req, res) => {
     .single();
 
   if (error || !data) {
+    console.error('Error al obtener simulación:', error);
     res.status(404);
     throw new Error('Simulación no encontrada');
   }

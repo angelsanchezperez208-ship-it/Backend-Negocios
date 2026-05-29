@@ -9,6 +9,7 @@ const getConfiguracion = asyncHandler(async (req, res) => {
     .order('clave');
 
   if (error) {
+    console.error('Error al obtener configuración:', error);
     res.status(500);
     throw new Error('Error al obtener configuración');
   }
@@ -34,6 +35,7 @@ const updateConfiguracion = asyncHandler(async (req, res) => {
     .single();
 
   if (error || !data) {
+    console.error('Error al actualizar configuración:', error);
     res.status(404);
     throw new Error('Clave de configuración no encontrada');
   }

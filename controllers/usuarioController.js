@@ -19,7 +19,7 @@ const registro = asyncHandler(async (req, res) => {
     .from('usuarios')
     .select('id')
     .eq('email', email)
-    .single();
+    .maybeSingle();
 
   if (existente) {
     res.status(400);
@@ -35,6 +35,7 @@ const registro = asyncHandler(async (req, res) => {
     .single();
 
   if (error) {
+    console.error('Error al crear el usuario:', error);
     res.status(500);
     throw new Error('Error al crear el usuario');
   }
@@ -95,7 +96,7 @@ const updatePerfil = asyncHandler(async (req, res) => {
       .select('id')
       .eq('email', email)
       .neq('id', req.usuario.id)
-      .single();
+      .maybeSingle();
 
     if (existente) {
       res.status(400);
@@ -117,6 +118,7 @@ const updatePerfil = asyncHandler(async (req, res) => {
     .single();
 
   if (error) {
+    console.error('Error al actualizar el perfil:', error);
     res.status(500);
     throw new Error('Error al actualizar el perfil');
   }
@@ -138,6 +140,7 @@ const getUsuarios = asyncHandler(async (req, res) => {
     .range(from, to);
 
   if (error) {
+    console.error('Error al obtener usuarios:', error);
     res.status(500);
     throw new Error('Error al obtener usuarios');
   }
@@ -173,6 +176,7 @@ const cambiarRol = asyncHandler(async (req, res) => {
     .single();
 
   if (error || !data) {
+    console.error('Error al cambiar rol de usuario:', error);
     res.status(404);
     throw new Error('Usuario no encontrado');
   }
@@ -192,6 +196,7 @@ const eliminarUsuario = asyncHandler(async (req, res) => {
   const { error } = await supabase.from('usuarios').delete().eq('id', id);
 
   if (error) {
+    console.error('Error al eliminar el usuario:', error);
     res.status(500);
     throw new Error('Error al eliminar el usuario');
   }
