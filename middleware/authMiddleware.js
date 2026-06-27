@@ -22,7 +22,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
   const { data: usuario, error } = await supabase
     .from('usuarios')
-    .select('id, nombre, email, rol')
+    .select('id, nombre, email, rol, xp')
     .eq('id', decoded.id)
     .single();
 

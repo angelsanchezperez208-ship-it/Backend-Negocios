@@ -31,7 +31,7 @@ const registro = asyncHandler(async (req, res) => {
   const { data: usuario, error } = await supabase
     .from('usuarios')
     .insert({ nombre, email, password_hash })
-    .select('id, nombre, email, rol')
+    .select('id, nombre, email, rol, xp')
     .single();
 
   if (error) {
@@ -45,6 +45,7 @@ const registro = asyncHandler(async (req, res) => {
     nombre: usuario.nombre,
     email: usuario.email,
     rol: usuario.rol,
+    xp: 0,
     token: generarToken(usuario.id),
   });
 });
@@ -60,7 +61,7 @@ const login = asyncHandler(async (req, res) => {
 
   const { data: usuario } = await supabase
     .from('usuarios')
-    .select('id, nombre, email, rol, password_hash')
+    .select('id, nombre, email, rol, password_hash, xp')
     .eq('email', email)
     .single();
 
@@ -74,6 +75,7 @@ const login = asyncHandler(async (req, res) => {
     nombre: usuario.nombre,
     email: usuario.email,
     rol: usuario.rol,
+    xp: usuario.xp,
     token: generarToken(usuario.id),
   });
 });

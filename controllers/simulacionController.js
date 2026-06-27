@@ -116,7 +116,28 @@ const crearSimulacion = asyncHandler(async (req, res) => {
     throw new Error('Error al guardar la simulación');
   }
 
-  res.status(201).json(simulacion);
+  // --- Calcular XP ganado ---
+  let xp_ganado = 10;
+  if (resultados.utilidad_mxn > 0) xp_ganado += 15;
+  if (resultados.ingreso_mxn > 0 && (resultados.utilidad_mxn / resultados.ingreso_mxn) > 0.5) {
+    xp_ganado += 10;
+  }
+  if (escenario_id === 3 || escenario_id === 4) xp_ganado += 10;
+
+  const { data: usuarioActual } = await supabase
+    .from('usuarios')
+    .select('xp')
+    .eq('id', req.usuario.id)
+    .single();
+
+  const xp_total = (usuarioActual?.xp || 0) + xp_ganado;
+
+  await supabase
+    .from('usuarios')
+    .update({ xp: xp_total })
+    .eq('id', req.usuario.id);
+
+  res.status(201).json({ ...simulacion, xp_ganado, xp_total });
 });
 
 // GET /api/simulaciones
