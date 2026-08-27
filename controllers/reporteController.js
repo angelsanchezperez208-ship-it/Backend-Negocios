@@ -29,10 +29,10 @@ const getResumen = asyncHandler(async (req, res) => {
   }
 
   res.json({
-    totalUsuarios,
-    totalSimulaciones,
-    utilidadPromedio,
-    simulacionesPorEscenario: Object.values(conteoEscenario),
+    total_usuarios: totalUsuarios,
+    total_simulaciones: totalSimulaciones,
+    utilidad_promedio: utilidadPromedio,
+    por_escenario: Object.values(conteoEscenario),
   });
 });
 
@@ -76,10 +76,16 @@ const getReporteUsuario = asyncHandler(async (req, res) => {
       ? Math.round((todasSimulaciones.reduce((s, r) => s + Number(r.utilidad_mxn), 0) / totalSimulaciones) * 100) / 100
       : 0;
 
+  const utilidadesUsuario = (todasSimulaciones || []).map(s => Number(s.utilidad_mxn));
+  const mejorUtilidad = utilidadesUsuario.length ? Math.max(...utilidadesUsuario) : 0;
+  const peorUtilidad = utilidadesUsuario.length ? Math.min(...utilidadesUsuario) : 0;
+
   res.json({
     usuario,
-    totalSimulaciones,
-    utilidadPromedio,
+    total_simulaciones: totalSimulaciones,
+    utilidad_promedio: utilidadPromedio,
+    mejor_utilidad: mejorUtilidad,
+    peor_utilidad: peorUtilidad,
     simulaciones: {
       data: pagina,
       total: count,
@@ -128,12 +134,13 @@ const getReporteEscenario = asyncHandler(async (req, res) => {
 
   res.json({
     escenario,
-    totalSimulaciones: total,
-    utilidadPromedio,
-    utilidadMinima,
-    utilidadMaxima,
+    nombre: escenario.nombre,
+    total_simulaciones: total,
+    utilidad_promedio: utilidadPromedio,
+    utilidad_min: utilidadMinima,
+    utilidad_max: utilidadMaxima,
     rentables,
-    noRentables,
+    no_rentables: noRentables,
   });
 });
 
